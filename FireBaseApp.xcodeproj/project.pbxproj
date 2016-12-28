@@ -113,7 +113,7 @@
 				9340DB1E1E0C55B7009E0EE5 /* Library */,
 				9340DB031E0BED5C009E0EE5 /* Resourses */,
 				9340DB191E0C5581009E0EE5 /* Shared */,
-				9340DB071E0BED5C009E0EE5 /* Sourse */,
+				9340DB071E0BED5C009E0EE5 /* Source */,
 			);
 			path = FireBaseApp;
 			sourceTree = "<group>";
@@ -145,7 +145,7 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
-		9340DB071E0BED5C009E0EE5 /* Sourse */ = {
+		9340DB071E0BED5C009E0EE5 /* Source */ = {
 			isa = PBXGroup;
 			children = (
 				9340DB091E0BED5C009E0EE5 /* Assets.xcassets */,
@@ -153,6 +153,7 @@
 				9340DB151E0BF971009E0EE5 /* GoogleService-Info.plist */,
 				9340DB0E1E0BED5C009E0EE5 /* Info.plist */,
 			);
+			name = Source;
 			path = Sourse;
 			sourceTree = "<group>";
 		};
@@ -421,7 +422,9 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_OBJC_BRIDGING_HEADER = /Users/nikola/Documents/SourceTree/FireBaseApp/Pods/Firebase/Core/Sources/Firebase.h;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "bridge-FireBase.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Debug;
 		};
@@ -462,7 +465,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_OBJC_BRIDGING_HEADER = /Users/nikola/Documents/SourceTree/FireBaseApp/Pods/Firebase/Core/Sources/Firebase.h;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "bridge-FireBase.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

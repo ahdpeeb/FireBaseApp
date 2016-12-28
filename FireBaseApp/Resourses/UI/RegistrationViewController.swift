@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import Photos
 
 class RegistrationViewController: UITableViewController {
     @IBOutlet var photoLibrary: UIButton!
@@ -20,7 +21,7 @@ class RegistrationViewController: UITableViewController {
     
     fileprivate let imagePicker = UIImagePickerController()
     let imageStorage = FIRStorage.storage().reference(withPath: "avatarImages")
-    var localPhotoURL: URL? = nil
+    var assetPhotoURL: URL? = nil
     
     // MARK: - View life cycle
     override func viewDidLoad() {
@@ -57,29 +58,39 @@ class RegistrationViewController: UITableViewController {
     }
     
     func configurateUser(_ user: FIRUser) {
+        let imageRef = self.avatarReference(fromUser: user)
         let changeRequest = user.profileChangeRequest()
         changeRequest.displayName = self.nameTextField.text ?? (user.email?.components(separatedBy: "@")[0])
-        let imageRef = self.avatarReference(fromUser: user)
-        imageRef.map { self.uploadToReference($0) }
         changeRequest.photoURL = (imageRef?.fullPath).flatMap { return URL(string: $0) }
+        imageRef.map { self.uploadToReference($0) }
+        
         changeRequest.commitChanges() { (error) in
             self.displayError(error)
-            AppState.instance.user?.name = user.displayName
+            let sharedUser =  AppState.instance.user
+            sharedUser?.name = user.displayName
+            sharedUser?.photoURL = user.photoURL
         }
     }
     
     private func avatarReference(fromUser user: FIRUser) -> FIRStorageReference? {
-        guard let localULR = self.localPhotoURL else { return nil }
+        guard let localULR = self.assetPhotoURL else { return nil }
         return imageStorage.child(user.uid + "." + localULR.pathExtension)
     }
     
-    private func uploadToReference(_ reference: FIRStorageReference) {
-        if let localURL = self.localPhotoURL {
-            let data = Data(contentsOf: localURL)
+    private func uploadToReference(_ reference : FIRStorageReference) {
+        guard let assetURL = self.assetPhotoURL else { return }
+        guard let asset = PHAsset.fetchAssets(withALAssetURLs: [assetURL], options: nil).firstObject else { return }
+        PHImageManager.default().requestImage(for: asset,
+                                        targetSize: CGSize(width: 200 , height: 200),
+                                       contentMode: .aspectFill,
+                                           options: nil)
+        { (photo, info) in
+            if let imageData = (photo.flatMap { return UIImagePNGRepresentation($0) }) {
+                reference.put(imageData, metadata: nil, completion: { (metaData, error) in
+                    self.displayError(error)
+                })
+            }
         }
-        
-        let uploadTask = self.localPhotoURL.map { return reference.putFile($0) }
-        uploadTask?.resume()
     }
     
     private func displayError(_ error: Error?) {
@@ -89,13 +100,12 @@ class RegistrationViewController: UITableViewController {
             return
         }
     }
-    
 }
 
 extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         self.avatarImageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
-        self.localPhotoURL = info[UIImagePickerControllerReferenceURL] as? URL
+        self.assetPhotoURL = info[UIImagePickerControllerReferenceURL] as? URL
         self.dismiss(animated: true, completion: nil)
     }
     
