@@ -23,14 +23,14 @@ class RegistrationViewController: UITableViewController {
     let imageStorage = FIRStorage.storage().reference(withPath: "avatarImages")
     var assetPhotoURL: URL? = nil
     
-    // MARK: - View life cycle
+    //MARK: Overrided functions
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureImagePicker()
     }
     
     // MARK: - Actions
-    @IBAction func onPhotoLibraty(_ sender: UIButton) {
+    @IBAction func onPhotoLibrary(_ sender: UIButton) {
         self.present(imagePicker, animated: true, completion: nil)
     }
     
@@ -63,12 +63,13 @@ class RegistrationViewController: UITableViewController {
         changeRequest.displayName = self.nameTextField.text ?? (user.email?.components(separatedBy: "@")[0])
         changeRequest.photoURL = (imageRef?.fullPath).flatMap { return URL(string: $0) }
         imageRef.map { self.uploadToReference($0) }
-        
         changeRequest.commitChanges() { (error) in
             self.displayError(error)
-            let sharedUser =  AppState.instance.user
+            let sharedUser = AppState.instance.user
+            AppState.instance.isLoginned = true
             sharedUser?.name = user.displayName
             sharedUser?.photoURL = user.photoURL
+            self.performSegue(withIdentifier: Constants.Segues.signUpSuccessful, sender: self)
         }
     }
     
@@ -86,9 +87,7 @@ class RegistrationViewController: UITableViewController {
                                            options: nil)
         { (photo, info) in
             if let imageData = (photo.flatMap { return UIImagePNGRepresentation($0) }) {
-                reference.put(imageData, metadata: nil, completion: { (metaData, error) in
-                    self.displayError(error)
-                })
+                reference.put(imageData)
             }
         }
     }
@@ -112,4 +111,5 @@ extension RegistrationViewController: UIImagePickerControllerDelegate, UINavigat
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
     }
+    
 }

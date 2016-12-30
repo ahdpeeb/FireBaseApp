@@ -16,6 +16,8 @@ struct Constants {
     
     struct Segues {
         static let showRegistration = "showRegistration"
+        static let signUpSuccessful = "signUpSuccessful"
+        static let signInSuccessful = "signInSuccessful"
     }
     
 }

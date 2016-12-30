@@ -26,6 +26,11 @@ class LoginViewController: UIViewController {
         self.chechIfLoginned()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
     deinit {
         
     }
@@ -43,6 +48,7 @@ class LoginViewController: UIViewController {
                 self?.showAllerError(error, title: Constants.Messages.loginError)
                 return
             }
+            
             self?.emailTextField.text = ""
             self?.passwordTextField.text = ""
             user.map { self?.loginedWithUser(userData: $0) }
@@ -61,14 +67,23 @@ class LoginViewController: UIViewController {
     //MARK: Private methods
     
     private func chechIfLoginned() {
-        FIRAuth.auth()?.currentUser.map { self.loginedWithUser(userData: $0) }
+        let user = FIRAuth.auth()?.currentUser
+        user?.reload(completion: { (error) in
+            if error != nil {
+                try? FIRAuth.auth()?.signOut()
+                return
+            }
+            
+            user.map { self.loginedWithUser(userData: $0) }
+        })
+        
     }
     
     private func loginedWithUser(userData: FIRUser) {
         let appState = AppState.instance
         appState.isLoginned = true
         appState.user = User(userData: userData)
-        //transition to another controller
+        self.performSegue(withIdentifier: Constants.Segues.signInSuccessful, sender: self)
     }
     
     private func showAllerError(_ error: Error, title: String) {
@@ -114,6 +129,10 @@ class LoginViewController: UIViewController {
 
 extension LoginViewController: UITextFieldDelegate {
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == self.emailTextField {
+            self.passwordTextField.becomeFirstResponder()
+        }
+        
         return true
     }
 }

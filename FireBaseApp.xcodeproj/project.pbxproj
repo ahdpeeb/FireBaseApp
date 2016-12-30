@@ -28,6 +28,7 @@
 		9362B4751E0D3CAD00A3B820 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9362B4741E0D3CAD00A3B820 /* RegistrationViewController.swift */; };
 		9362B4771E0D4C9000A3B820 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9362B4761E0D4C9000A3B820 /* User.swift */; };
 		9362B4791E11500E00A3B820 /* UIAlertController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9362B4781E11500E00A3B820 /* UIAlertController + Extension.swift */; };
+		93EB8BED1E158E1800B2A28E /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EB8BEC1E158E1800B2A28E /* ListViewController.swift */; };
 		C38E9A261B8906E9CD1A1308 /* Pods_FireBaseApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CAD8A1BD8CA8F8FF4C6A432 /* Pods_FireBaseApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +58,7 @@
 		9362B4741E0D3CAD00A3B820 /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		9362B4761E0D4C9000A3B820 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		9362B4781E11500E00A3B820 /* UIAlertController + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertController + Extension.swift"; sourceTree = "<group>"; };
+		93EB8BEC1E158E1800B2A28E /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		A883FFC65A80B8E8FCED3FF8 /* Pods-FireBaseApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FireBaseApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FireBaseApp/Pods-FireBaseApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -141,6 +143,7 @@
 			children = (
 				9340DB061E0BED5C009E0EE5 /* LoginViewController.swift */,
 				9362B4741E0D3CAD00A3B820 /* RegistrationViewController.swift */,
+				93EB8BEC1E158E1800B2A28E /* ListViewController.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -335,6 +338,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93EB8BED1E158E1800B2A28E /* ListViewController.swift in Sources */,
 				9362B4791E11500E00A3B820 /* UIAlertController + Extension.swift in Sources */,
 				9340DB351E0C55B7009E0EE5 /* ObservableArray.swift in Sources */,
 				9340DB1D1E0C5581009E0EE5 /* AppState.swift in Sources */,
@@ -467,7 +471,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = /Users/nikola/Documents/SourceTree/FireBaseApp/Pods/Firebase/Core/Sources/Firebase.h;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "bridge-FireBase.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

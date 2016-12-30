@@ -9,7 +9,7 @@
 import Foundation
 import FirebaseAuth
 
-class User {
+class User: CustomDebugStringConvertible {
     let uid: String
     let email: String
     var name: String? = nil
@@ -22,4 +22,7 @@ class User {
         self.photoURL = userData.photoURL
     }
     
+    public var debugDescription: String {
+        return String("uid: \(self.uid), email: \(self.uid), name: \(self.name), photoURL: \(self.photoURL?.absoluteString)")
+    }
 }
